@@ -130,24 +130,22 @@ void setup(void)
   sensors.init();
 }
 
-static uint32_t tTime[2];
+static uint32_t tTime;
 uint32_t count;
 
 void loop(void)
 {
-
-//	yaw=getYaw(0,0,0.366939217,0.945571899);
   count++;
   uint32_t t = HAL_GetTick();
   updateVariable(nh.connected());
-  // Publish IMU data at 200Hz
-  if ((t - tTime[0]) >= (1000 / IMU_PUBLISH_FREQUENCY))
+  // Publish IMU data at 34Hz
+  if ((t - tTime) >= (1000 / IMU_PUBLISH_FREQUENCY))
   {
     HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
 
     publishImuMsg();
 //    chatter.publish(&str_msg);
-    tTime[0] = t;
+    tTime = t;
   }
   // Update the IMU unit
   sensors.updateIMU();

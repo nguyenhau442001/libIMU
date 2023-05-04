@@ -23,29 +23,29 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   9 .ccmram       00000000  10000000  10000000  000300b4  2**0
                   CONTENTS
- 10 .bss          00001e6c  200000b8  200000b8  000300b8  2**3
+ 10 .bss          00001e68  200000b8  200000b8  000300b8  2**3
                   ALLOC
- 11 ._user_heap_stack 00000604  20001f24  20001f24  000300b8  2**0
+ 11 ._user_heap_stack 00000600  20001f20  20001f20  000300b8  2**0
                   ALLOC
  12 .ARM.attributes 00000030  00000000  00000000  000300b4  2**0
                   CONTENTS, READONLY
- 13 .debug_info   000331db  00000000  00000000  000300e4  2**0
+ 13 .debug_info   000331cb  00000000  00000000  000300e4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 00006006  00000000  00000000  000632bf  2**0
+ 14 .debug_abbrev 00006006  00000000  00000000  000632af  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00001aa0  00000000  00000000  000692c8  2**3
+ 15 .debug_aranges 00001aa0  00000000  00000000  000692b8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_ranges 000018e8  00000000  00000000  0006ad68  2**3
+ 16 .debug_ranges 000018e8  00000000  00000000  0006ad58  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  00029e41  00000000  00000000  0006c650  2**0
+ 17 .debug_macro  00029e41  00000000  00000000  0006c640  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00025f34  00000000  00000000  00096491  2**0
+ 18 .debug_line   00025f31  00000000  00000000  00096481  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000d7497  00000000  00000000  000bc3c5  2**0
+ 19 .debug_str    000d7497  00000000  00000000  000bc3b2  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000050  00000000  00000000  0019385c  2**0
+ 20 .comment      00000050  00000000  00000000  00193849  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  000079a8  00000000  00000000  001938ac  2**2
+ 21 .debug_frame  000079a8  00000000  00000000  0019389c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -11195,7 +11195,7 @@ void setup(void)
 
 08006ac0 <loop>:
 
-static uint32_t tTime[2];
+static uint32_t tTime;
 uint32_t count;
 
 void loop(void)
@@ -11203,8 +11203,6 @@ void loop(void)
  8006ac0:	b580      	push	{r7, lr}
  8006ac2:	b082      	sub	sp, #8
  8006ac4:	af00      	add	r7, sp, #0
-
-//	yaw=getYaw(0,0,0.366939217,0.945571899);
   count++;
  8006ac6:	4b18      	ldr	r3, [pc, #96]	; (8006b28 <loop+0x68>)
  8006ac8:	681b      	ldr	r3, [r3, #0]
@@ -11220,8 +11218,8 @@ void loop(void)
  8006adc:	4603      	mov	r3, r0
  8006ade:	4618      	mov	r0, r3
  8006ae0:	f7ff ffb6 	bl	8006a50 <_Z14updateVariableb>
-  // Publish IMU data at 200Hz
-  if ((t - tTime[0]) >= (1000 / IMU_PUBLISH_FREQUENCY))
+  // Publish IMU data at 34Hz
+  if ((t - tTime) >= (1000 / IMU_PUBLISH_FREQUENCY))
  8006ae4:	4b12      	ldr	r3, [pc, #72]	; (8006b30 <loop+0x70>)
  8006ae6:	681b      	ldr	r3, [r3, #0]
  8006ae8:	687a      	ldr	r2, [r7, #4]
@@ -11237,7 +11235,7 @@ void loop(void)
     publishImuMsg();
  8006afa:	f7ff ff75 	bl	80069e8 <_Z13publishImuMsgv>
 //    chatter.publish(&str_msg);
-    tTime[0] = t;
+    tTime = t;
  8006afe:	4a0c      	ldr	r2, [pc, #48]	; (8006b30 <loop+0x70>)
  8006b00:	687b      	ldr	r3, [r7, #4]
  8006b02:	6013      	str	r3, [r2, #0]
@@ -11265,7 +11263,7 @@ void loop(void)
  8006b22:	46bd      	mov	sp, r7
  8006b24:	bd80      	pop	{r7, pc}
  8006b26:	bf00      	nop
- 8006b28:	20001828 	.word	0x20001828
+ 8006b28:	20001824 	.word	0x20001824
  8006b2c:	20000550 	.word	0x20000550
  8006b30:	20001820 	.word	0x20001820
  8006b34:	40020c00 	.word	0x40020c00
@@ -13271,7 +13269,7 @@ AGVSensor sensors;
  8007bd2:	bf00      	nop
  8007bd4:	bd80      	pop	{r7, pc}
  8007bd6:	bf00      	nop
- 8007bd8:	20001c10 	.word	0x20001c10
+ 8007bd8:	20001c0c 	.word	0x20001c0c
 
 08007bdc <_getpid>:
  8007bdc:	b480      	push	{r7}
@@ -13355,8 +13353,8 @@ AGVSensor sensors;
  8007c7a:	bd80      	pop	{r7, pc}
  8007c7c:	20020000 	.word	0x20020000
  8007c80:	00000400 	.word	0x00000400
- 8007c84:	2000182c 	.word	0x2000182c
- 8007c88:	20001f28 	.word	0x20001f28
+ 8007c84:	20001828 	.word	0x20001828
+ 8007c88:	20001f20 	.word	0x20001f20
 
 08007c8c <SystemInit>:
  8007c8c:	b480      	push	{r7}
@@ -13451,7 +13449,7 @@ AGVSensor sensors;
  8007d48:	200000b4 	.word	0x200000b4
  8007d4c:	080141b0 	.word	0x080141b0
  8007d50:	200000b8 	.word	0x200000b8
- 8007d54:	20001f24 	.word	0x20001f24
+ 8007d54:	20001f20 	.word	0x20001f20
 
 08007d58 <ADC_IRQHandler>:
  8007d58:	e7fe      	b.n	8007d58 <ADC_IRQHandler>
@@ -13544,7 +13542,7 @@ AGVSensor sensors;
  8007e1c:	4770      	bx	lr
  8007e1e:	bf00      	nop
  8007e20:	20000028 	.word	0x20000028
- 8007e24:	20001830 	.word	0x20001830
+ 8007e24:	2000182c 	.word	0x2000182c
 
 08007e28 <HAL_GetTick>:
  8007e28:	b480      	push	{r7}
@@ -13556,7 +13554,7 @@ AGVSensor sensors;
  8007e34:	f85d 7b04 	ldr.w	r7, [sp], #4
  8007e38:	4770      	bx	lr
  8007e3a:	bf00      	nop
- 8007e3c:	20001830 	.word	0x20001830
+ 8007e3c:	2000182c 	.word	0x2000182c
 
 08007e40 <HAL_Delay>:
  8007e40:	b580      	push	{r7, lr}
@@ -32827,7 +32825,7 @@ AGVSensor sensors;
  8012720:	bd80      	pop	{r7, pc}
  8012722:	bf00      	nop
  8012724:	08012745 	.word	0x08012745
- 8012728:	20001834 	.word	0x20001834
+ 8012728:	20001830 	.word	0x20001830
  801272c:	2000002c 	.word	0x2000002c
 
 08012730 <MX_USB_HOST_Process>:
@@ -32838,7 +32836,7 @@ AGVSensor sensors;
  801273a:	bf00      	nop
  801273c:	bd80      	pop	{r7, pc}
  801273e:	bf00      	nop
- 8012740:	20001834 	.word	0x20001834
+ 8012740:	20001830 	.word	0x20001830
 
 08012744 <USBH_UserProcess>:
  8012744:	b480      	push	{r7}
@@ -32878,7 +32876,7 @@ AGVSensor sensors;
  8012794:	f85d 7b04 	ldr.w	r7, [sp], #4
  8012798:	4770      	bx	lr
  801279a:	bf00      	nop
- 801279c:	20001c0c 	.word	0x20001c0c
+ 801279c:	20001c08 	.word	0x20001c08
 
 080127a0 <HAL_HCD_MspInit>:
  80127a0:	b580      	push	{r7, lr}
@@ -33099,7 +33097,7 @@ AGVSensor sensors;
  801297a:	46bd      	mov	sp, r7
  801297c:	bd80      	pop	{r7, pc}
  801297e:	bf00      	nop
- 8012980:	20001c10 	.word	0x20001c10
+ 8012980:	20001c0c 	.word	0x20001c0c
 
 08012984 <USBH_LL_Start>:
  8012984:	b580      	push	{r7, lr}
@@ -34126,7 +34124,7 @@ AGVSensor sensors;
  80133ae:	e7ca      	b.n	8013346 <_free_r+0x26>
  80133b0:	b003      	add	sp, #12
  80133b2:	bd30      	pop	{r4, r5, pc}
- 80133b4:	20001f14 	.word	0x20001f14
+ 80133b4:	20001f10 	.word	0x20001f10
 
 080133b8 <sbrk_aligned>:
  80133b8:	b570      	push	{r4, r5, r6, lr}
@@ -34154,7 +34152,7 @@ AGVSensor sensors;
  80133ec:	f04f 34ff 	mov.w	r4, #4294967295
  80133f0:	4620      	mov	r0, r4
  80133f2:	bd70      	pop	{r4, r5, r6, pc}
- 80133f4:	20001f18 	.word	0x20001f18
+ 80133f4:	20001f14 	.word	0x20001f14
 
 080133f8 <_malloc_r>:
  80133f8:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
@@ -34258,7 +34256,7 @@ AGVSensor sensors;
  80134d6:	6025      	str	r5, [r4, #0]
  80134d8:	e7de      	b.n	8013498 <_malloc_r+0xa0>
  80134da:	bf00      	nop
- 80134dc:	20001f14 	.word	0x20001f14
+ 80134dc:	20001f10 	.word	0x20001f10
 
 080134e0 <realloc>:
  80134e0:	4b02      	ldr	r3, [pc, #8]	; (80134ec <realloc+0xc>)
@@ -34282,7 +34280,7 @@ AGVSensor sensors;
  8013506:	b103      	cbz	r3, 801350a <_sbrk_r+0x1a>
  8013508:	6023      	str	r3, [r4, #0]
  801350a:	bd38      	pop	{r3, r4, r5, pc}
- 801350c:	20001f1c 	.word	0x20001f1c
+ 801350c:	20001f18 	.word	0x20001f18
 
 08013510 <_raise_r>:
  8013510:	291f      	cmp	r1, #31
@@ -34344,7 +34342,7 @@ AGVSensor sensors;
  801358a:	6023      	str	r3, [r4, #0]
  801358c:	bd38      	pop	{r3, r4, r5, pc}
  801358e:	bf00      	nop
- 8013590:	20001f1c 	.word	0x20001f1c
+ 8013590:	20001f18 	.word	0x20001f18
 
 08013594 <_getpid_r>:
  8013594:	f7f4 bb22 	b.w	8007bdc <_getpid>
@@ -34381,13 +34379,13 @@ AGVSensor sensors;
  80135d8:	4801      	ldr	r0, [pc, #4]	; (80135e0 <__malloc_lock+0x8>)
  80135da:	f000 bb27 	b.w	8013c2c <__retarget_lock_acquire_recursive>
  80135de:	bf00      	nop
- 80135e0:	20001f20 	.word	0x20001f20
+ 80135e0:	20001f1c 	.word	0x20001f1c
 
 080135e4 <__malloc_unlock>:
  80135e4:	4801      	ldr	r0, [pc, #4]	; (80135ec <__malloc_unlock+0x8>)
  80135e6:	f000 bb22 	b.w	8013c2e <__retarget_lock_release_recursive>
  80135ea:	bf00      	nop
- 80135ec:	20001f20 	.word	0x20001f20
+ 80135ec:	20001f1c 	.word	0x20001f1c
 
 080135f0 <_realloc_r>:
  80135f0:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
