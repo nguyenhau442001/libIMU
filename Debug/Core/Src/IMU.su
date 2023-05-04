@@ -1,0 +1,10 @@
+../Core/Inc/MadgwickAHRS.h:44:10:void Madgwick::begin(float)	16	static
+../Core/Inc/MadgwickAHRS.h:50:11:float Madgwick::getRoll()	16	static
+../Core/Inc/MadgwickAHRS.h:54:11:float Madgwick::getPitch()	16	static
+../Core/Inc/MadgwickAHRS.h:58:11:float Madgwick::getYaw()	16	static
+../Core/Src/IMU.cpp:16:15:long unsigned int micros()	16	static
+../Core/Src/IMU.cpp:29:15:long unsigned int millis()	8	static
+../Core/Src/IMU.cpp:40:1:cIMU::cIMU()	24	static
+../Core/Src/IMU.cpp:59:9:uint8_t cIMU::begin(uint32_t)	32	static
+../Core/Src/IMU.cpp:107:10:uint16_t cIMU::update(uint32_t)	24	static
+../Core/Src/IMU.cpp:152:6:void cIMU::computeIMU()	32	static
